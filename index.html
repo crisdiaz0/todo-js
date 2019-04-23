@@ -10,7 +10,7 @@
       <div id="main-todo-list" class="todo-list">
 
       </div>
-      <input type="text" placeholder="New todo">
+      <input type="text" placeholder="New todo" onkeyup="if (event.keyCode === 13) addItem(this)"/>
       <p><span id="remaining-count">0</span> items remain</p>
     </div>
     <script src="script/todo.js"></script>
