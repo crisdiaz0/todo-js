@@ -8,17 +8,35 @@ let todos = [
 // Get the DOM element that holds and displays all the todo items
 let container = document.getElementById('main-todo-list');
 
+// Remaining, uncompleted task counter
+let counter = document.getElementById('remaining-count');
+
 // Iterate through the todo array and populate the container with the todos
+// Also check the complete properties of the todo items and update the counter
 for (let index in todos) {
   let item = todos[index];
 
   // create a new todo div
   let newItem = document.createElement('div');
-  newItem.className = 'todo';
+  newItem.className = 'todo complete';
   newItem.id = item.id;
 
-  // Add the checkbox and span with the todo text to the new div
-  newItem.innerHTML = '<input type=checkbox class=todo-checkbox onclick=check(this) />';
+  // Check if the todo item is marked as complete. If so, the div needs the todo complete class
+  // Also update the remaining counter
+  if (!item.complete) {
+    counter.innerHTML = parseInt(counter.innerHTML) + 1;
+    newItem.className = 'todo';
+
+    // Add the checkbox
+    newItem.innerHTML = '<input type=checkbox class=todo-checkbox onclick=check(this) />';
+  }
+  
+  else {
+    // Add the checkbox with defualt to checked
+    newItem.innerHTML = '<input type=checkbox class=todo-checkbox checked=checked onclick=check(this) />';
+  }
+
+  // Add the span with the todo item text
   newItem.innerHTML += `<span class=todo-text>${item.text}</span>`;
 
   // add this new div to the container
@@ -45,5 +63,14 @@ function check(item) {
 
   // Update the complete value for this todo item
   // If checked, it changes to complete = true; Else it changes to complete = false
-  (item.checked) ? todos[itemIndex].complete = true : todos[itemIndex].complete = false
+  // Also, update the remaining items counter
+  if (item.checked) {
+    todos[itemIndex].complete = true;
+    counter.innerHTML = parseInt(counter.innerHTML) - 1;
+  }
+
+  else {
+    todos[itemIndex].complete = false;
+    counter.innerHTML = parseInt(counter.innerHTML) + 1;
+  }
 }
