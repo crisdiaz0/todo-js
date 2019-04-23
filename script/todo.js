@@ -12,10 +12,15 @@ let container = document.getElementById('main-todo-list');
 let counter = document.getElementById('remaining-count');
 
 // Iterate through the todo array and populate the container with the todos
-// Also check the complete properties of the todo items and update the counter
 for (let index in todos) {
   let item = todos[index];
+  container.appendChild(createItem(item));
+}
 
+
+// funciton to create a new item for the todo list contain
+// returns the div
+function createItem(item) {
   // create a new todo div
   let newItem = document.createElement('div');
   newItem.className = 'todo complete';
@@ -39,8 +44,7 @@ for (let index in todos) {
   // Add the span with the todo item text
   newItem.innerHTML += `<span class=todo-text>${item.text}</span>`;
 
-  // add this new div to the container
-  container.appendChild(newItem);
+  return newItem;
 }
 
 
@@ -72,5 +76,22 @@ function check(item) {
   else {
     todos[itemIndex].complete = false;
     counter.innerHTML = parseInt(counter.innerHTML) + 1;
+  }
+}
+
+
+// function for adding a new item when a user presses enter / return on the input box
+function addItem(input) {
+  // arg input is the input box element
+  // we can access the user input using input.value
+
+  if (input.value) {
+    // create a new object to add to the todo array
+    let obj = {id: todos.length + 1, text: input.value, complete: false}
+    todos.push(obj);
+
+    // create and add the new todo div to the container
+    container.appendChild(createItem(obj));
+    input.value = '';
   }
 }
